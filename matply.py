@@ -12,12 +12,30 @@ def trans2rad(degree):
 	#np.cos/sin's input is rad/s
 	return degree*np.pi/180
 
-def normal_transition_mat():
-	mat_z= [ [np.cos(0.15),-np.sin(0.15),0,0],
-			[np.sin(0.15),np.cos(0.15),0,0],
-				[0,0,1,0],
-					[0,0,0,1]
+def normal_transition_mat(axis,theta):
+	theta = trans2rad(theta)
+	if axis == "z":
+		Rot_z= [ [np.cos(theta),-np.sin(theta),0,0],
+					[np.sin(theta),np.cos(theta),0,0],
+						[0,0,1,0],
+							[0,0,0,1]
 			]
+		RotMat = Rot_z
+	elif axis = "y":
+		Rot_y= [ [np.cos(theta),0,-np.sin(theta),0],
+					[0,1,0,0],
+						[-np.sin(theta),0,np.cos(theta),0],
+							[0,0,0,1]
+				]
+		RotMat = Rot_y
+	elif axis =="x":
+		Rot_x= [ [1,0,0,0],
+					[0,np.cos(theta),-np.sin(theta),0],
+						[0,np.sin(theta),np.cos(theta),0],
+							[0,0,0,1]
+				]
+		RotMat = Rot_x
+	return RotMat
 def matrix_inverse(T):
 	return np.linalg.inv(T)
 
@@ -29,7 +47,7 @@ def defferitial_operator(T,dT)：
 def defferitial_operator_T(T,dT):
 	#T^Δ = T(^-1)*dT
 	return np.matmul(np.linalg.inv(T),dT)
-	
+
 if __name__ == '__main__':
 	mat1 = [ [1,0,0,1],
 				[0,1,0,2],
